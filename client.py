@@ -19,7 +19,7 @@ candidates = ['Donald Trump', 'Roger Federer', 'Britney Spears', 'Ali El Deek','
 
 print("Choose your candidates (up to 2) among the list: "  + str(candidates))
 
-# print(public_key)            
+print(public_key)            
 
 # Deserialize the public key
 received_dict = json.loads(public_key)
