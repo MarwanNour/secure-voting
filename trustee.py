@@ -17,9 +17,9 @@ port = 12345
 serv.bind((host, port))
 serv.listen(5)
 
+
 while True:
     conn, addr = serv.accept()
     print("Connection from client", addr)
-    conn.send("You have connected to MY SERVER")
+    conn.send(str(public_key).encode())
     conn.close()
-    
