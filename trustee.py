@@ -29,5 +29,5 @@ while True:
     conn, addr = serv.accept()
     print("Connection from client: ", addr)
     # cast to string then encode into bytes
-    conn.sendall(str(serialized_public_key).encode())
+    conn.send(str(serialized_public_key).encode())
     conn.close()

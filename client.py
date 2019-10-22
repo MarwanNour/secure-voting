@@ -54,5 +54,14 @@ encrypted_choices = public_key_rec.encrypt(summed_choices)
 
 print(encrypted_choices)
 
+# create a voting socket with a different port
+votingSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+portVotingServer = 23456
+votingSocket.connect((host, portVotingServer))
+# send the encrypted choices to voting server
+votingSocket.send(str(encrypted_choices).encode())
+votingSocket.close()
+
+
 # discussions here pls   
 
