@@ -20,7 +20,7 @@ clientSocket.close()
 # Client needs to vote
 candidates = ['Donald Trump', 'Roger Federer', 'Britney Spears', 'Ali El Deek','Steve Jobs']
 
-print("Choose your candidates (up to 2) among the list: "  + candidates)
+print("Choose your candidates (up to 2) among the list: "  + str(candidates))
 
 
 vote_count = 0
@@ -28,7 +28,7 @@ vote_count = 0
 choice = "-1"
 summed_choices = 0
 
-while(choice != "end" and vote_count >= 2):
+while(choice != "end" and vote_count < 2):
     print("0 - Donald Trump")
     print("1 - Roger Federer")
     print("2 - Britney Spears")
@@ -37,9 +37,11 @@ while(choice != "end" and vote_count >= 2):
     print("end to exit")
     choice = int(input())
     #encode the choice
-    summed_choices += 10^choice
+    summed_choices += pow(10, choice)
     vote_count += 1 
 
+print("summed choices " + str(summed_choices))
 
-#discussions here pls
 
+
+#discussions here pls 
