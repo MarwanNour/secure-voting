@@ -47,7 +47,7 @@ while(vote_count < 2):
     summed_choices += pow(10, choice)
     vote_count += 1 
 
-print("summed choices " + str(summed_choices))
+print("Summed Choices:\t" + str(summed_choices))
 
 # now we encrypt with it the summed choices
 encrypted_choices = public_key_rec.encrypt(summed_choices)
