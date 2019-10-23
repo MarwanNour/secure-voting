@@ -59,8 +59,8 @@ print(encrypted_choices)
 votingSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 portVotingServer = 10002
 votingSocket.connect((host, portVotingServer))
-# send the encrypted choices to voting server
-votingSocket.send(str(encrypted_choices).encode())
+# send the encrypted choices CIPHERTEXT to voting server
+votingSocket.send(str(encrypted_choices.ciphertext()).encode())
 votingSocket.close()
 
 

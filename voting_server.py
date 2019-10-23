@@ -36,10 +36,12 @@ while client_count < 2:     # MODIFY CLIENT COUNT
     conn, addr = serv.accept()
     print("Connection from client: ", addr)
     msg = conn.recv(1024)
-    encrypted_choices_str = msg.decode("ascii")
-    print(encrypted_choices_str)
-    # Get EncryptedNumber because encrypted_choices is of type str
-    encrypted_choices = paillier.EncryptedNumber(public_key_rec, encrypted_choices_str)
+    encrypted_choices_ciphertext_str = msg.decode("ascii")
+    # RECEIVE THE CIPHERTEXT
+    encrypted_choices_ciphertext = int(encrypted_choices_ciphertext_str)
+    print(encrypted_choices_ciphertext)
+    # CREATE THE ENCRYPTED NUMBER OBJECT FROM PUBLIC KEY AND CIPHERTEXT
+    encrypted_choices = paillier.EncryptedNumber(public_key_rec, encrypted_choices_ciphertext)
     print(encrypted_choices)
     # Add to list
     vote_list_encrypted.append(encrypted_choices)
@@ -60,12 +62,12 @@ vote_list_encrypted_with_public_key['values'] = [
 
 print(vote_list_encrypted_with_public_key)
 
-# Send to Trustee Server
-# Create Client Socket
-clientSocketTrustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname()                           
-portTrustee = 10003
-clientSocketTrustee.connect((host, portTrustee))                               
-msg = clientSocket.send(str(vote_list_encrypted_with_public_key).encode())                                
-clientSocketTrustee.close()
+# # Send to Trustee Server
+# # Create Client Socket
+# clientSocketTrustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# host = socket.gethostname()                           
+# portTrustee = 10003
+# clientSocketTrustee.connect((host, portTrustee))                               
+# msg = clientSocket.send(str(vote_list_encrypted_with_public_key).encode())                                
+# clientSocketTrustee.close()
 
