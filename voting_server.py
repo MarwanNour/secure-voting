@@ -3,13 +3,13 @@ import json
 from phe import paillier
 
 # Create Client Socket to get public key from trustee
-clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()                           
 portTrustee = 10001
-clientSocket.connect((host, portTrustee))                               
-msg = clientSocket.recv(1024)                                
+client_socket.connect((host, portTrustee))                               
+msg = client_socket.recv(1024)                                
 public_key = msg.decode("ascii")
-clientSocket.close()
+client_socket.close()
 
 # Deserialize the public key
 received_dict = json.loads(public_key)
@@ -54,7 +54,6 @@ print(vote_list_encrypted)
 # Add list to accumulator in JSON format
 vote_list_encrypted_with_public_key = {}
 
-# --------------------ERROR HERE------------------------
 vote_list_encrypted_with_public_key['public_key'] = {'n': public_key_rec.n}
 vote_list_encrypted_with_public_key['values'] = [
     (str(x.ciphertext()), x.exponent) for x in vote_list_encrypted
@@ -62,12 +61,14 @@ vote_list_encrypted_with_public_key['values'] = [
 
 print(vote_list_encrypted_with_public_key)
 
-# # Send to Trustee Server
-# # Create Client Socket
-# clientSocketTrustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# host = socket.gethostname()                           
-# portTrustee = 10003
-# clientSocketTrustee.connect((host, portTrustee))                               
-# msg = clientSocket.send(str(vote_list_encrypted_with_public_key).encode())                                
-# clientSocketTrustee.close()
+serialized_list = json.dumps(vote_list_encrypted_with_public_key)
+
+# Send to Trustee Server
+# Create Client Socket
+client_socket_trustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()                           
+portTrustee = 10003
+client_socket_trustee.connect((host, portTrustee))                               
+msg = client_socket_trustee.send(serialized_list.encode())                                
+client_socket_trustee.close()
 

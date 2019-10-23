@@ -33,6 +33,8 @@ while num_connections < 3:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
     print("Connection from client: ", addr)
     # cast to string then encode into bytes
     conn.send(str(serialized_public_key).encode())
+    # increment number of connections
+    num_connections += 1
     conn.close()
 
 # Receive accumulated votes from Voting server
@@ -40,15 +42,17 @@ while num_connections < 3:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
 servTrustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 portTrustee = 10003
-servTrustee.bind((host, port))
+servTrustee.bind((host, portTrustee))
 servTrustee.listen(5)
-trusteeConn, trusteeAddr = servTrustee.accept()
-print("Connected to trustee: ", trusteeAddr)
-msg = trusteeConn.recv(1024)
-trusteeConn.close()
+voting_conn, voting_addr = servTrustee.accept()
+print("Connected to voting server: ", voting_addr)
+msg = voting_conn.recv(1024)
+voting_conn.close()
 
 serialized_dict = msg.decode("ascii")
 
+
+# ############# ERROR HERE #####################
 # Deserialize the values from json
 received_dict = json.loads(serialized_dict)
 pk = received_dict['public_key']

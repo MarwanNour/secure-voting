@@ -56,12 +56,12 @@ encrypted_choices = public_key_rec.encrypt(summed_choices)
 print(encrypted_choices)
 
 # create a voting socket with a different port
-votingSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-portVotingServer = 10002
-votingSocket.connect((host, portVotingServer))
+voting_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+port_voting_server = 10002
+voting_socket.connect((host, port_voting_server))
 # send the encrypted choices CIPHERTEXT to voting server
-votingSocket.send(str(encrypted_choices.ciphertext()).encode())
-votingSocket.close()
+voting_socket.send(str(encrypted_choices.ciphertext()).encode())
+voting_socket.close()
 
 
 # discussions here pls   
