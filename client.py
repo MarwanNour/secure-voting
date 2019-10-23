@@ -2,11 +2,12 @@ import socket
 import json
 from phe import paillier
 
+# Get Public Key from Trustee
 # create a socket object
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # get local machine name
 host = socket.gethostname()                           
-portTrustee = 12345
+portTrustee = 10001
 # connection to hostname on the port.
 clientSocket.connect((host, portTrustee))                               
 # Receive no more than 1024 bytes
@@ -56,7 +57,7 @@ print(encrypted_choices)
 
 # create a voting socket with a different port
 votingSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-portVotingServer = 23456
+portVotingServer = 10002
 votingSocket.connect((host, portVotingServer))
 # send the encrypted choices to voting server
 votingSocket.send(str(encrypted_choices).encode())

@@ -14,7 +14,7 @@ public_key, private_key = paillier.generate_paillier_keypair()
 # Need to send public key to clients
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
-port = 12345
+port = 10001
 serv.bind((host, port))
 serv.listen(5)
 
