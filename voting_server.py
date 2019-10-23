@@ -2,7 +2,7 @@ import socket
 import json
 from phe import paillier
 
-# Create socket to get public key from trustee
+# Create Client Socket to get public key from trustee
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()                           
 portTrustee = 10001
@@ -18,7 +18,7 @@ public_key_rec = paillier.PaillierPublicKey(n=int(pk['n']))
 print(str(public_key_rec))
 
 
-# Create socket to get votes from clients/voters
+# Create Server Socket to get votes from clients/voters
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 10002
@@ -51,16 +51,21 @@ print(vote_list_encrypted)
 
 # Add list to accumulator in JSON format
 vote_list_encrypted_with_public_key = {}
+
+# --------------------ERROR HERE------------------------
+vote_list_encrypted_with_public_key['public_key'] = {'n': public_key_rec.n}
 vote_list_encrypted_with_public_key['values'] = [
     (str(x.ciphertext()), x.exponent) for x in vote_list_encrypted
     ]
 
 print(vote_list_encrypted_with_public_key)
 
-# # Send to Trustee Server
-# serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# host = socket.gethostname()
-# port = 10003
-# serv.bind((host, port))
-# serv.listen(5)
+# Send to Trustee Server
+# Create Client Socket
+clientSocketTrustee = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()                           
+portTrustee = 10003
+clientSocketTrustee.connect((host, portTrustee))                               
+msg = clientSocket.send(str(vote_list_encrypted_with_public_key).encode())                                
+clientSocketTrustee.close()
 

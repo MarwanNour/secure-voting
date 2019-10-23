@@ -50,7 +50,7 @@ while(vote_count < 2):
 
 print("Summed Choices:\t" + str(summed_choices))
 
-# now we encrypt with it the summed choices
+# now we use it to encrypt the summed choices
 encrypted_choices = public_key_rec.encrypt(summed_choices)
 
 print(encrypted_choices)
