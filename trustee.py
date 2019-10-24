@@ -56,14 +56,10 @@ serialized_dict = msg.decode("ascii")
 def utf8len(s):
     return len(s.encode('utf-8'))
 
-# ############# ERROR HERE #####################
 print()
 print(serialized_dict)
 print(utf8len(serialized_dict))
-
-
-
-
+print()
 
 # Deserialize the values from json
 received_dict = json.loads(serialized_dict)
@@ -80,3 +76,49 @@ print(vote_list_encrypted_with_public_key)
 # Decrypt with Private Key
 decrypted_list = [private_key.decrypt(x) for x in vote_list_encrypted_with_public_key]
 print(decrypted_list)
+
+# Get sum of votes
+decrypted_list_sum = sum(decrypted_list)
+
+candidates = ['Donald Trump', 'Roger Federer', 'Britney Spears', 'Ali El Deek','Steve Jobs']
+
+zero_filled_sum = str(decrypted_list_sum).zfill(len(candidates))        # zero filled because the length of the sum might be less than length of list of candidates
+print(zero_filled_sum)
+
+# Reverse list
+zero_filled_sum_reversed = zero_filled_sum[::-1]
+print(zero_filled_sum_reversed)
+
+# Put sum reversed in a list
+def split(word): 
+    return [char for char in word]  
+
+reversed_sum_list = split(zero_filled_sum_reversed)
+print(reversed_sum_list)
+
+# put candidates and zero_filled_sum_reversed in dictionary
+candidates_dict = dict(zip(candidates, reversed_sum_list))
+print(candidates_dict)
+
+# get maximum number of votes
+# and winner
+max_votes = 0
+winner = ""
+
+for x in candidates_dict:
+    if(int(candidates_dict[x]) > max_votes):
+        max_votes = int(candidates_dict[x])
+        winner = x
+
+
+winner_str  = "Winner : " + winner + "\n" + "Winner Votes : " + str(max_votes)
+print(winner_str)
+
+# send winner to client
+# Create Client socket for trustee to send winner to client
+# Client awaits message from trustee -> Client becomes server
+winner_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+port_winner = 10004
+winner_sock.connect((host, port_winner))
+msg  = winner_sock.send(winner_str.encode())
+winner_sock.close()

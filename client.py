@@ -62,3 +62,22 @@ voting_socket.connect((host, port_voting_server))
 # send the encrypted choices CIPHERTEXT to voting server
 voting_socket.send(str(encrypted_choices.ciphertext()).encode())
 voting_socket.close()
+
+
+# Create a server to receive the winner
+winner_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()
+port_winner = 10004
+winner_sock.bind((host, port_winner))
+winner_sock.listen(5)
+winner_conn, winner_addr = winner_sock.accept()
+print("Connected to Trustee Server: ", winner_addr)
+msg = winner_conn.recv(1024)
+winner_conn.close()
+
+# Decode Winner
+# Print Winner
+decoded_winner = msg.decode("ascii")
+
+print(decoded_winner)
+
