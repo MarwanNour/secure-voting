@@ -3,13 +3,6 @@ import json
 from phe import paillier
 
 public_key, private_key = paillier.generate_paillier_keypair()
-# secret_list = [21, 34, 231]
-# print(secret_list)
-# encrypted_list = [public_key.encrypt(x) for x in secret_list]
-# print(encrypted_list)
-# print([private_key.decrypt(x) for x in encrypted_list])
-
-# Encryption works
 
 # Need to send public key to clients
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -52,14 +45,14 @@ voting_conn.close()
 serialized_dict = msg.decode("ascii")
 
 
-# FOR TESTING: GETS THE NUMBER OF BYTES
-def utf8len(s):
-    return len(s.encode('utf-8'))
+# # FOR TESTING: GETS THE NUMBER OF BYTES
+# def utf8len(s):
+#     return len(s.encode('utf-8'))
 
-print()
-print(serialized_dict)
-print(utf8len(serialized_dict))
-print()
+# print()
+# print(serialized_dict)
+# print(utf8len(serialized_dict))
+# print()
 
 # Deserialize the values from json
 received_dict = json.loads(serialized_dict)
