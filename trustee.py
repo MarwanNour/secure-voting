@@ -74,8 +74,8 @@ print(decrypted_list)
 decrypted_list_sum = sum(decrypted_list)
 
 candidates = ['Donald Trump', 'Roger Federer', 'Britney Spears', 'Ali El Deek','Steve Jobs']
-
-zero_filled_sum = str(decrypted_list_sum).zfill(len(candidates))        # zero filled because the length of the sum might be less than length of list of candidates
+# zero filled because the length of the sum might be less than length of list of candidates
+zero_filled_sum = str(decrypted_list_sum).zfill(len(candidates))       
 print(zero_filled_sum)
 
 # Reverse list
@@ -107,11 +107,19 @@ for x in candidates_dict:
 winner_str  = "Winner : " + winner + "\n" + "Winner Votes : " + str(max_votes)
 print(winner_str)
 
-# send winner to client
-# Create Client socket for trustee to send winner to client
-# Client awaits message from trustee -> Client becomes server
+# Create Server socket for trustee to send winner to client
 winner_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()
 port_winner = 10004
-winner_sock.connect((host, port_winner))
-msg  = winner_sock.send(winner_str.encode())
-winner_sock.close()
+winner_sock.bind((host, port_winner))
+winner_sock.listen(5)
+
+# number of connections: n clients
+num_connections = 0
+# send winner to client
+while num_connections < 2:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
+    winner_conn, winner_addr = winner_sock.accept()
+    print("Connected to Client: ", winner_addr)
+    winner_conn.send(winner_str.encode())
+    num_connections += 1
+    winner_conn.close()

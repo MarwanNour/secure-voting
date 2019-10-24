@@ -1,5 +1,6 @@
 import socket
 import json
+import time
 from phe import paillier
 
 # Get Public Key from Trustee
@@ -64,20 +65,27 @@ voting_socket.send(str(encrypted_choices.ciphertext()).encode())
 voting_socket.close()
 
 
-# Create a server to receive the winner
-winner_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname()
-port_winner = 10004
-winner_sock.bind((host, port_winner))
-winner_sock.listen(5)
-winner_conn, winner_addr = winner_sock.accept()
-print("Connected to Trustee Server: ", winner_addr)
-msg = winner_conn.recv(1024)
-winner_conn.close()
+# Create a socket to receive the winner
+# Try catch
+while(True):
+    # put code here
+    try:
+        print("Connecting to trustee server...")
+        winner_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        host = socket.gethostname()
+        port_winner = 10004
+        winner_sock.connect((host, port_winner))
+        msg = winner_sock.recv(1024)
+        winner_sock.close()
+        # Decode Winner
+        # Print Winner
+        decoded_winner = msg.decode("ascii")
+        print(decoded_winner)
+        break
 
-# Decode Winner
-# Print Winner
-decoded_winner = msg.decode("ascii")
+    except socket.error as e:
+        #sleep here
+        print("Error connecting to trustee server. Sleeping for 5 seconds")
+        time.sleep(5)
 
-print(decoded_winner)
 
