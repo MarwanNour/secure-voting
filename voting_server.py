@@ -7,7 +7,7 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = socket.gethostname()                           
 portTrustee = 10001
 client_socket.connect((host, portTrustee))                               
-msg = client_socket.recv(1024)                                
+msg = client_socket.recv(2000)                                
 public_key = msg.decode("ascii")
 client_socket.close()
 
@@ -35,7 +35,7 @@ client_count = 0
 while client_count < 2:     # MODIFY CLIENT COUNT
     conn, addr = serv.accept()
     print("Connection from client: ", addr)
-    msg = conn.recv(1024)
+    msg = conn.recv(2000)
     encrypted_choices_ciphertext_str = msg.decode("ascii")
     # RECEIVE THE CIPHERTEXT
     encrypted_choices_ciphertext = int(encrypted_choices_ciphertext_str)

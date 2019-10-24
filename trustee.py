@@ -46,7 +46,7 @@ servTrustee.bind((host, portTrustee))
 servTrustee.listen(5)
 voting_conn, voting_addr = servTrustee.accept()
 print("Connected to voting server: ", voting_addr)
-msg = voting_conn.recv(3136)
+msg = voting_conn.recv(3500)
 voting_conn.close()
 
 serialized_dict = msg.decode("ascii")

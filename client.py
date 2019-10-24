@@ -11,7 +11,7 @@ portTrustee = 10001
 # connection to hostname on the port.
 clientSocket.connect((host, portTrustee))                               
 # Receive no more than 1024 bytes
-msg = clientSocket.recv(1024)                                
+msg = clientSocket.recv(2000)                                
 public_key = msg.decode("ascii")
 clientSocket.close()
 
@@ -62,7 +62,3 @@ voting_socket.connect((host, port_voting_server))
 # send the encrypted choices CIPHERTEXT to voting server
 voting_socket.send(str(encrypted_choices.ciphertext()).encode())
 voting_socket.close()
-
-
-# discussions here pls   
-
