@@ -1,3 +1,5 @@
+# Author: Marwan Nour
+
 import socket
 import json
 import time

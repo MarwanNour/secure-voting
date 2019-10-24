@@ -1,3 +1,5 @@
+# Author: Marwan Nour
+
 import socket
 import json
 from phe import paillier
