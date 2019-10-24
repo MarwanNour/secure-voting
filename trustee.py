@@ -22,7 +22,7 @@ print(serialized_public_key)
 
 # number of connections: n clients + 1 voting server
 num_connections = 0
-supported_client_count = 2
+supported_client_count = 4
 # Send public key to clients and voting server 
 while num_connections < (supported_client_count + 1):      # MODIFY NUMBER OF CONNECTIONS HERE LATER
     conn, addr = serv.accept()
@@ -42,20 +42,20 @@ servTrustee.bind((host, portTrustee))
 servTrustee.listen(5)
 voting_conn, voting_addr = servTrustee.accept()
 print("Connected to voting server: ", voting_addr)
-msg = voting_conn.recv(3500)
+msg = voting_conn.recv(3500 * supported_client_count)
 voting_conn.close()
 
 serialized_dict = msg.decode("ascii")
 
 
-# # FOR TESTING: GETS THE NUMBER OF BYTES
-# def utf8len(s):
-#     return len(s.encode('utf-8'))
+# FOR TESTING: GETS THE NUMBER OF BYTES
+def utf8len(s):
+    return len(s.encode('utf-8'))
 
-# print()
-# print(serialized_dict)
-# print(utf8len(serialized_dict))
-# print()
+print()
+print(serialized_dict)
+print(utf8len(serialized_dict))
+print()
 
 # Deserialize the values from json
 received_dict = json.loads(serialized_dict)
