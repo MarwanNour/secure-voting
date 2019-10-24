@@ -20,8 +20,9 @@ print(serialized_public_key)
 
 # number of connections: n clients + 1 voting server
 num_connections = 0
+supported_client_count = 2
 # Send public key to clients and voting server 
-while num_connections < 3:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
+while num_connections < (supported_client_count + 1):      # MODIFY NUMBER OF CONNECTIONS HERE LATER
     conn, addr = serv.accept()
     print("Connection from client: ", addr)
     # cast to string then encode into bytes
@@ -117,7 +118,7 @@ winner_sock.listen(5)
 # number of connections: n clients
 num_connections = 0
 # send winner to client
-while num_connections < 2:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
+while num_connections < supported_client_count:      # MODIFY NUMBER OF CONNECTIONS HERE LATER
     winner_conn, winner_addr = winner_sock.accept()
     print("Connected to Client: ", winner_addr)
     winner_conn.send(winner_str.encode())

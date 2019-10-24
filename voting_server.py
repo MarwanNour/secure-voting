@@ -30,9 +30,9 @@ vote_list_encrypted = []
 
 # Allow certain number of clients to connect before proceeding
 client_count = 0
-
+supported_client_count = 2
 # Receive encrypted_choices from client
-while client_count < 2:     # MODIFY CLIENT COUNT
+while client_count < supported_client_count:     # MODIFY CLIENT COUNT
     conn, addr = serv.accept()
     print("Connection from client: ", addr)
     msg = conn.recv(2000)
